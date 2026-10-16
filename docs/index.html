@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#131322">
+<title>Steampunks Plane Two</title>
+<meta name="description" content="An Incentive Studios flight game prototype. Launch, collect, and land on the train. FUN credits only.">
+<link rel="stylesheet" href="shell/ig-tokens.css">
+<link rel="stylesheet" href="style.css">
+<link rel="preload" href="assets/spx-background-v3.webp" as="image">
+<link rel="preload" href="shell/inter.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+<main class="game ig-game" id="game" aria-label="Steampunks Plane Two demo game">
+  <header class="ig-status" aria-label="Game session">
+    <span class="game-name">Steampunks Plane Two</span>
+    <time id="clock" aria-label="Current time"></time>
+    <span id="sessionDuration" aria-label="Session duration">00:00:00</span>
+    <span class="session-result" id="sessionResult" aria-label="Session result">0.00 FUN</span>
+  </header>
+  <section class="scene" aria-label="Flight scene">
+    <canvas id="world" aria-label="A red-haired steampunk pilot boards a brass aircraft from a moving train, then collects number and multiplier symbols, avoids mechanical pigeons and lands on trains."></canvas>
+    <div class="ig-hud">
+      <div class="balance-panel" aria-label="Demo balance"><span>Balance (FUN)</span><strong id="balance">5,000.00</strong></div>
+      <nav class="utility-controls" aria-label="Game information and menu">
+        <button id="info" class="utility" aria-label="Game rules" title="Game rules"><img src="shell/icons/info-button.svg" alt=""></button>
+        <button id="menu" class="utility" aria-label="Game settings" title="Game settings"><img src="shell/icons/menu-button.svg" alt=""></button>
+      </nav>
+    </div>
+    <div id="progression" hidden aria-hidden="true"><span id="collection"></span><i id="progressFill"></i></div>
+    <div class="start-hint" id="startHint">Press play to take flight.</div>
+    <div class="controller" aria-label="Bet controller">
+      <div class="controller-left">
+        <button class="bet-readout" id="betReadout" aria-label="Choose bet amount"><span class="stake-copy"><small>Bet Amount</small><strong id="stake">2.00</strong></span><img class="stake-chevrons" src="shell/icons/stake-arrows.svg" alt=""></button>
+        <div class="stake-indicator" aria-hidden="true"><i id="stakeValueFill"></i></div>
+      </div>
+      <button id="spin" class="spin" aria-label="Start flight" title="Start flight (Space)" disabled><img class="spin-icon" src="shell/icons/play-button.svg" alt=""><span class="stop-icon" hidden></span><span id="autoCount" hidden></span></button>
+      <div class="controller-right">
+        <button id="quick" class="secondary quick" aria-label="Enable quickspin" aria-pressed="false" title="Quickspin"><img src="shell/icons/turbo.svg" alt=""></button>
+        <button id="auto" class="secondary auto" aria-label="Autoplay" title="Autoplay"><img src="shell/icons/autoplay.svg" alt=""></button>
+      </div>
+    </div>
+    <button id="minus" hidden tabindex="-1" aria-label="Decrease bet"></button><button id="plus" hidden tabindex="-1" aria-label="Increase bet"></button>
+    <p class="toast" id="toast" hidden></p><div id="loading" class="loading">Preparing your aircraft.</div>
+  </section>
+  <footer class="result-footer">
+    <span class="footer-bet">Bet: <strong id="stakeFooter">2.00</strong><small>FUN</small></span>
+    <span class="studio-brand">INCENTIVE STUDIOS <span>DEMO</span></span>
+    <span class="footer-win">Last Win: <strong id="win">0.00</strong><small>FUN</small></span>
+  </footer>
+  <div id="status" class="sr-only" role="status" aria-live="polite">Ready for takeoff. Demo credits only.</div>
+</main>
+<dialog id="manual" class="manual" aria-label="Game rules and settings">
+  <header><strong id="manualTitle">GAME RULES</strong><button class="close" data-close aria-label="Close game rules">&#215;</button></header>
+  <nav aria-label="Information tabs"><button data-tab="rules" class="selected" aria-label="Game rules">Rules</button><button data-tab="settings" aria-label="Settings">Settings</button></nav>
+  <div class="manual-body" id="rulesPanel">
+    <h2>Steampunks Plane Two</h2><p class="center">Launch. Collect. Land on the train.</p>
+    <div class="symbol-example">1&#8211;10</div><h3>Number symbols</h3><p>Numbers add their displayed value to the aircraft's current multiplier.</p>
+    <div class="symbol-example multiply-example">&#215;2 &#8211; &#215;10</div><h3>Multiplier symbols</h3><p>These multiply the aircraft's current multiplier by the displayed amount.</p>
+    <div class="hazard-example"><img src="assets/spx-pigeon.webp" alt="Mechanical pigeon"></div><h3>Mechanical pigeons</h3><p>Mechanical pigeons halve your current multiplier, rounded to the nearest 0.1&#215; with a 0.1&#215; minimum. A collision also knocks the aircraft downwards and leaves a smoke trail.</p>
+    <h3>How to play</h3><ul><li>Choose a bet, then press play. Every flight starts at 1&#215;.</li><li>The aircraft flies automatically. Pickups give it lift; mechanical pigeons push it down.</li><li>Land on a glowing train wagon to win the displayed amount. A ground crash pays zero.</li><li>The maximum payout is 250&#215; your bet.</li><li>The amount above the aircraft is its current value in FUN credits.</li><li>The pilot boards before takeoff. Quickspin changes playback speed only.</li><li>Autoplay starts the selected number of flights. Press the main stop button to stop autoplay after the current flight.</li><li>The bet is locked while a flight is running. During a single flight, the main stop button fast-forwards the current result.</li></ul>
+    <h3>Aircraft finishes</h3><p>A gold finish may unlock through play. This is cosmetic and does not change flight results.</p>
+    <h3>About this prototype</h3><p>FUN credits only. The flight engine and outcome table are reconstructed from the supplied reference. The model's estimated theoretical return is 97.00% across its frozen outcome table. This is not certified game mathematics or a promise for an individual session.</p>
+  </div>
+  <div class="manual-body" id="settingsPanel" hidden><h2>Settings</h2><label class="setting">Sound effects <input type="checkbox" id="soundSetting"></label><label class="setting">Quickspin <input type="checkbox" id="quickSetting"></label><button class="flat-button" id="resetDemo">Reset demo balance to 5,000.00</button><p>Reset is available between flights.</p><p class="muted">Progress and preferences are saved on this device.</p></div>
+</dialog>
+<dialog id="autoDialog" class="small-dialog" aria-label="Autoplay"><header><strong>AUTOPLAY</strong><button class="close" data-close aria-label="Close autoplay">&#215;</button></header><p>Number of flights</p><div id="roundChoices" class="choices"><button data-rounds="10" class="selected">10</button><button data-rounds="25">25</button><button data-rounds="50">50</button><button data-rounds="100">100</button></div><p class="exposure" id="autoExposure"></p><button class="primary" id="startAuto">START AUTOPLAY</button><small>You can stop after the current flight at any time.</small></dialog>
+<dialog id="betDialog" class="stake-popup" aria-label="Bet amount"><header><strong>Bet Amount</strong><button class="close" data-close aria-label="Close bet selector">&#215;</button></header><div id="betChoices" class="choices stakes" aria-label="Available demo bets"></div></dialog>
+<dialog id="quickDialog" class="quick-dialog" aria-label="Quickspin confirmation"><p>Enable quickspin?</p><div><button id="quickNo">No</button><button id="quickYes">Yes</button></div></dialog>
+<script src="engine.js?v=4"></script><script src="renderer.js?v=spx3"></script><script src="game.js?v=spx3"></script>
+</body>
+</html>

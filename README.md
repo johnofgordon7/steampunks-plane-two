@@ -2,6 +2,10 @@
 
 Playable flight-game prototype, preserved from the supplied latest deployment archive. Includes the complete static runtime: editable JavaScript, HTML, CSS, model data, artwork, sound effects, icons and font. The original development project/build configuration and original test suite were not supplied.
 
+## Play online
+
+[Play Steampunks Plane Two](https://johnofgordon7.github.io/steampunks-plane-two/). GitHub Pages serves the unchanged runtime from `docs/` on `main`.
+
 ## Run locally
 
 With Python 3 installed:
